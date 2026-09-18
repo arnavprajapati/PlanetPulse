@@ -1,6 +1,6 @@
 # PlanetPulse
 
-**Hackathon ID: AZIS-T5CS9T**
+**Hackathon ID: AZIS-2WVCUQ**
 
 A carbon footprint tracker — turns daily choices (car trips, flights, electricity use, meals) into a visible CO₂ footprint with a live dashboard.
 

@@ -137,7 +137,7 @@ export default function App() {
             <span>— distraction-free carbon tracking.</span>
           </div>
           <div className="text-[11px] text-gray-400">
-            <span>APEX-2026</span>
+            <span>AZIS-2WVCUQ</span>
           </div>
         </footer>
       </div>
