@@ -64,7 +64,14 @@ export default function WeeklyTarget({ summary, onTargetChanged }) {
         </div>
       </div>
 
-      <div className="h-2.5 bg-slate-100 rounded-full mb-4 overflow-hidden">
+      <div
+        className="h-2.5 bg-slate-100 rounded-full mb-4 overflow-hidden"
+        role="progressbar"
+        aria-valuenow={Number(pct.toFixed(0))}
+        aria-valuemin={0}
+        aria-valuemax={100}
+        aria-label="Weekly carbon budget progress"
+      >
         <div
           className={`h-full rounded-full transition-all duration-500 ease-out ${
             targetExceeded ? "bg-amber-500" : "bg-sky-500"
@@ -74,15 +81,15 @@ export default function WeeklyTarget({ summary, onTargetChanged }) {
       </div>
 
       {targetExceeded ? (
-        <div className="mt-4 px-3.5 py-2.5 bg-amber-50 border border-amber-200 rounded-xl text-xs sm:text-sm flex items-center gap-2.5 text-amber-900 font-medium">
-          <span className="w-1.5 h-1.5 rounded-full bg-amber-500 shrink-0"></span>
+        <div role="status" aria-live="polite" className="mt-4 px-3.5 py-2.5 bg-amber-50 border border-amber-200 rounded-xl text-xs sm:text-sm flex items-center gap-2.5 text-amber-900 font-medium">
+          <span className="w-1.5 h-1.5 rounded-full bg-amber-500 shrink-0" aria-hidden="true"></span>
           <span>
             <strong className="font-semibold">Target exceeded:</strong> Over by {(weekTotalKg - weeklyTargetKg).toFixed(2)} kg CO₂e.
           </span>
         </div>
       ) : (
-        <div className="mt-4 px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs sm:text-sm flex items-center gap-2.5 text-slate-700">
-          <span className="w-1.5 h-1.5 rounded-full bg-sky-500 shrink-0"></span>
+        <div role="status" aria-live="polite" className="mt-4 px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs sm:text-sm flex items-center gap-2.5 text-slate-700">
+          <span className="w-1.5 h-1.5 rounded-full bg-sky-500 shrink-0" aria-hidden="true"></span>
           <span>
             <strong className="font-semibold text-slate-900">On Track:</strong> {(weeklyTargetKg - weekTotalKg).toFixed(2)} kg CO₂e remaining budget this week.
           </span>
@@ -91,21 +98,28 @@ export default function WeeklyTarget({ summary, onTargetChanged }) {
 
       <form className="mt-6 pt-5 border-t border-slate-100" onSubmit={handleSetTarget}>
         <div className="flex flex-col gap-1.5">
-          <label className="text-xs font-semibold uppercase tracking-wider text-slate-600">Update Weekly Target (kg CO₂e)</label>
+          <label htmlFor="weekly-target-input" className="text-xs font-semibold uppercase tracking-wider text-slate-700">
+            Update Weekly Target (kg CO₂e)
+          </label>
           <div className="flex gap-2.5 items-center flex-col sm:flex-row">
             <input
+              id="weekly-target-input"
+              name="weeklyTarget"
               type="number"
               min="0.01"
               step="any"
               value={draftTarget}
               onChange={(e) => setDraftTarget(e.target.value)}
               placeholder={`Current target: ${weeklyTargetKg}`}
+              aria-label="Weekly target in kg CO2e"
               className="w-full sm:flex-1 h-10 px-3.5 bg-slate-50/50 hover:bg-white focus:bg-white border border-slate-200 rounded-xl text-sm text-slate-800 focus:outline-none focus:border-sky-500 focus:ring-4 focus:ring-sky-500/10 transition-all font-medium placeholder:text-slate-400"
             />
             <button
               type="submit"
+              aria-label="Update weekly target"
+              data-testid="update-target-button"
               disabled={saving || !draftTarget}
-              className="h-10 px-5 bg-white hover:bg-slate-50 disabled:bg-slate-100 disabled:text-slate-400 disabled:cursor-not-allowed border border-slate-200 rounded-xl text-xs sm:text-sm font-semibold text-slate-700 hover:text-slate-900 transition-all cursor-pointer shadow-sm w-full sm:w-auto"
+              className="h-10 px-5 bg-white hover:bg-slate-50 disabled:bg-slate-100 disabled:text-slate-400 disabled:cursor-not-allowed border border-slate-200 rounded-xl text-xs sm:text-sm font-semibold text-slate-700 hover:text-slate-900 transition-all cursor-pointer shadow-sm w-full sm:w-auto focus:outline-none focus:border-sky-500 focus:ring-4 focus:ring-sky-500/10"
             >
               {saving ? "Saving…" : "Update Target"}
             </button>
